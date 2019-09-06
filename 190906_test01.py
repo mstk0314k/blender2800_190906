@@ -1,43 +1,50 @@
+#
+# bl_info
+#
+bl_info = {
+  "name": "HelloAddOn",
+  "description": "This AddOn is first AddOn",
+  "author": "memoteu",
+  "version": (1, 0, 0, 0),
+  "blender": (2, 80, 0),
+  "support": "TESTING",
+  "category": "Tutorial",
+  "location": "",
+  "warning": "",
+  "wiki_url": "",
+  "tracker_url": ""
+}
+
 import bpy
 
 #
-# TUTORIAL_PT_SamplePanel
+# TUTORIAL_OT_HELLOADDON
 #
-class TUTORIAL_PT_SamplePanel(bpy.types.Panel):
-  bl_space_type = 'VIEW_3D'
-  bl_region_type = 'UI'
-  bl_category = "Tutorial"
-  bl_label = "PanelTitle"
+class TUTORIAL_OT_HELLOADDON(bpy.types.Operator):
+  bl_idname = "tutorial.helloaddon"
+  bl_label = "HelloAddOn"
 
-  #--- draw ---#
-  def draw(self, context):
-    layout = self.layout
-    layout.label(text="Hello")
-        
+  def execute(self, context):
+    print("Hello AddOn")
 
-#
-# register classs
-#
-classs = [
-  TUTORIAL_PT_SamplePanel
-]
+    return {'FINISHED'}
 
 #
 # register
 #
 def register():
-  for c in classs:
-    bpy.utils.register_class(c)
+  print("regist addon")
+  bpy.utils.register_class(TUTORIAL_OT_HELLOADDON)
 
 #
 # unregister
-#        
+#
 def unregister():
-  for c in classs:
-    bpy.utils.register_class(c)
+  print("unregist addon")
+  bpy.utils.unregister_class(TUTORIAL_OT_HELLOADDON)
 
 #
-# script entry
-#        
+# AddOn Entry
+#
 if __name__ == "__main__":
   register()
