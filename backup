@@ -1,6 +1,6 @@
 import bpy
 
-from . import test01
+# from . import test01
 
 # bl_info
 bl_info = {
@@ -17,14 +17,16 @@ bl_info = {
   "tracker_url": ""
 }
 
+
+
 # register
 def register():
-  print("regist addon")
+    print("regist addon")
 
 # unregister
 def unregister():
-  print("unregist addon")
+    print("unregist addon")
 
 # AddOn Entry
 if __name__ == "__main__":
-  register()
+    register()

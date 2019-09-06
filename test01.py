@@ -1,29 +1,44 @@
 import bpy
 
+#
+# TUTORIAL_PT_SamplePanel
+#
+class TUTORIAL_PT_SamplePanel(bpy.types.Panel):
+  bl_idname = "tutorial.samplepanel"
+  bl_space_type = 'VIEW_3D'
+  bl_region_type = 'UI'
+  bl_category = "Tutorial"
+  bl_label = "PanelTitle"
 
-# TUTORIAL_OT_HELLOADDON
-class TUTORIAL_OT_HELLOADDON(bpy.types.Operator):
-  bl_idname = "tutorial.helloaddon"
-  bl_label = "HelloAddOn"
+  #--- draw ---#
+  def draw(self, context):
+    layout = self.layout
+    layout.label(text="Hello")
+        
 
-  def execute(self, context):
-    print("Hello AddOn")
+#
+# register classs
+#
+classs = [
+  TUTORIAL_PT_SamplePanel
+]
 
-    return {'FINISHED'}
-
-
+#
 # register
+#
 def register():
-  print("regist addon")
-  bpy.utils.register_class(TUTORIAL_OT_HELLOADDON)
+  for c in classs:
+    bpy.utils.register_class(c)
 
-
+#
 # unregister
+#        
 def unregister():
-  print("unregist addon")
-  bpy.utils.unregister_class(TUTORIAL_OT_HELLOADDON)
+  for c in classs:
+    bpy.utils.unregister_class(c)
 
-
-# AddOn Entry
+#
+# script entry
+#        
 if __name__ == "__main__":
   register()
