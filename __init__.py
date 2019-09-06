@@ -2,6 +2,19 @@ import bpy
 
 from . import test01
 
+if "bpy" in locals():
+  import imp
+  imp.reload(test01)
+else:
+  from . import test01
+
+# class list
+classes = [
+  test01.TUTORIAL_PT_SamplePanel,
+  test01.TUTORIAL_PT_TestPanel,
+  test01.TUTORIAL_OT_PrintOK
+]
+
 # bl_info
 bl_info = {
   "name": "BlenderTest",
@@ -19,10 +32,14 @@ bl_info = {
 
 # register
 def register():
-  print("regist addon")
+  for cls in classes:
+    print("Register : "+str(cls))
+    bpy.utils.register_class(cls)
 
 # unregister
 def unregister():
+  for cls in classes:
+    bpy.utils.unregister_class(cls)
   print("unregist addon")
 
 # AddOn Entry
