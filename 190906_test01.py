@@ -79,13 +79,16 @@ class RenderingControlPanel(bpy.types.Panel):
         column_shirt.label(text="マテリアルのリセット")
         column_shirt.operator("run.reset_materials", text="Reset")
 
+classs = [AddMaterials, ResetMaterials, RenderingControlPanel]
 
 def register():
-    bpy.utils.register_module(__name__)
+    for c in classs:
+        bpy.utils.register_class(c)
 
 
 def unregister():
-    bpy.utils.unregister_module(__name__)
+    for c in classs:
+        bpy.utils.register_class(c)
 
 
 if __name__ == "__main__":
