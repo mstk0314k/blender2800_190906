@@ -1,7 +1,5 @@
 import bpy
-
-C = bpy.context
-D = bpy.data
+import math
 
 
 class SIMU_PT_SETTINGS(bpy.types.Panel):
@@ -27,6 +25,9 @@ class SIMU_OT_RESETOBJECTS(bpy.types.Operator):
     bl_options = {"REGISTER", "UNDO"}
 
     def execute(self, context):
+        C = bpy.context
+        D = bpy.data
+
         for obj in D.objects:
             print("remove : " + obj.name)
             D.objects.remove(obj)
@@ -35,16 +36,50 @@ class SIMU_OT_RESETOBJECTS(bpy.types.Operator):
             D.collections.remove(col)
         print("---RESET OBJECTS---")
 
+        # set collection
         new_col = D.collections.new("objects")
         C.scene.collection.children.link(new_col)
+
+        # sphere01
         bpy.ops.mesh.primitive_ico_sphere_add(
-            subdivisions=2, radius=1.0, calc_uvs=True, enter_editmode=False, \
-            align='WORLD', location=(0.0, 0.0, 0.0), rotation=(0.0, 0.0, 0.0))
+            subdivisions=2, radius=1.0, calc_uvs=True, enter_editmode=False,
+            align='WORLD', location=(0.0, 0.0, 0.0), rotation=(0.0, 0.0, 0.0)
+        )
         C.object.name = "sphere01"
         sphere01 = D.objects["sphere01"]
+        bpy.ops.rigidbody.object_add(type='ACTIVE')
         new_col.objects.link(sphere01)
         C.scene.collection.objects.unlink(sphere01)
-        print("---ADD NEW SPHERE---")
+
+        # sphere02
+        bpy.ops.mesh.primitive_ico_sphere_add(
+            subdivisions=2, radius=1.0, calc_uvs=True, enter_editmode=False,
+            align='WORLD', location=(10, 0.0, 0.0), rotation=(0.0, 0.0, 0.0)
+        )
+        C.object.name = "sphere02"
+        sphere02 = D.objects["sphere02"]
+        bpy.ops.rigidbody.object_add(type='ACTIVE')
+        new_col.objects.link(sphere02)
+        C.scene.collection.objects.unlink(sphere02)
+
+        # Camera
+        bpy.ops.object.camera_add(
+            enter_editmode=False, align='WORLD',
+            location=(12.54, -18.62, 10.88),
+            rotation=(math.radians(60), math.radians(0.0), math.radians(23.6))
+        )
+        C.object.name = "Camera"
+        camera = D.objects["Camera"]
+        new_col.objects.link(camera)
+        C.scene.collection.objects.unlink(camera)
+
+        # Light
+        light_obj = bpy.data.objects.new(
+            name="Light", object_data=D.lights[0]
+        )
+        light_obj.location = [8.0, -6.0, 7.0]
+        new_col.objects.link(light_obj)
+
+        print("---SET OBJECTS---")
 
         return {"FINISHED"}
-        
