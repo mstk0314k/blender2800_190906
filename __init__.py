@@ -6,7 +6,7 @@ bl_info = {
     "version": (1, 0, 0, 0),
     "blender": (2, 80, 0),
     "support": "TESTING",
-    "category": "Tutorial",
+    "category": "Test",
     "location": "View3D > Sidebar > View Tab",
     "warning": "",
     "wiki_url": "",
