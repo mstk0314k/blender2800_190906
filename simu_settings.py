@@ -34,6 +34,9 @@ class SIMU_OT_RESETOBJECTS(bpy.types.Operator):
         for col in D.collections:
             print("remove : " + col.name)
             D.collections.remove(col)
+        for cam in D.cameras:
+            print("remove : " + cam.name)
+            D.cameras.remove(cam)
         print("---RESET OBJECTS---")
 
         # set frame parameter
@@ -59,7 +62,7 @@ class SIMU_OT_RESETOBJECTS(bpy.types.Operator):
 
         # sphere02
         bpy.ops.mesh.primitive_ico_sphere_add(
-            subdivisions=2, radius=0, calc_uvs=True, enter_editmode=False,
+            subdivisions=2, radius=0.1, calc_uvs=True, enter_editmode=False,
             align='WORLD', location=(10, 0.0, 0.0), rotation=(0.0, 0.0, 0.0)
         )
         C.object.name = "sphere02"
@@ -72,7 +75,7 @@ class SIMU_OT_RESETOBJECTS(bpy.types.Operator):
 
         # sphere03
         bpy.ops.mesh.primitive_ico_sphere_add(
-            subdivisions=2, radius=0, calc_uvs=True, enter_editmode=False,
+            subdivisions=2, radius=0.1, calc_uvs=True, enter_editmode=False,
             align='WORLD', location=(10, 20, 0.0), rotation=(0.0, 0.0, 0.0)
         )
         C.object.name = "sphere03"
@@ -85,7 +88,7 @@ class SIMU_OT_RESETOBJECTS(bpy.types.Operator):
 
         # sphere04
         bpy.ops.mesh.primitive_ico_sphere_add(
-            subdivisions=2, radius=0, calc_uvs=True, enter_editmode=False,
+            subdivisions=2, radius=0.1, calc_uvs=True, enter_editmode=False,
             align='WORLD', location=(40, 20, 0.0), rotation=(0.0, 0.0, 0.0)
         )
         C.object.name = "sphere04"
@@ -99,11 +102,12 @@ class SIMU_OT_RESETOBJECTS(bpy.types.Operator):
         # Camera
         bpy.ops.object.camera_add(
             enter_editmode=False, align='WORLD',
-            location=(12.54, -18.62, 10.88),
+            location=(40, -40, 35),
             rotation=(math.radians(60), math.radians(0.0), math.radians(23.6))
         )
         C.object.name = "Camera"
         camera = D.objects["Camera"]
+        D.cameras["Camera"].lens = 35
         new_col.objects.link(camera)
         C.scene.collection.objects.unlink(camera)
 
@@ -111,7 +115,7 @@ class SIMU_OT_RESETOBJECTS(bpy.types.Operator):
         light_obj = bpy.data.objects.new(
             name="Light", object_data=D.lights[0]
         )
-        light_obj.location = [8.0, -6.0, 7.0]
+        light_obj.location = [50, -20, 30]
         new_col.objects.link(light_obj)
 
         # set rigidbody_world
