@@ -36,11 +36,9 @@ class SIMU_OT_RESETOBJECTS(bpy.types.Operator):
             D.collections.remove(col)
         print("---RESET OBJECTS---")
 
-        # set frame
+        # set frame parameter
         frame_s = 1
         frame_e = 600
-        D.scenes["Scene"].rigidbody_world.point_cache.frame_start = frame_s
-        D.scenes["Scene"].rigidbody_world.point_cache.frame_end = frame_e
 
         # set collection
         new_col = D.collections.new("objects")
@@ -61,7 +59,7 @@ class SIMU_OT_RESETOBJECTS(bpy.types.Operator):
 
         # sphere02
         bpy.ops.mesh.primitive_ico_sphere_add(
-            subdivisions=2, radius=1.0, calc_uvs=True, enter_editmode=False,
+            subdivisions=2, radius=0, calc_uvs=True, enter_editmode=False,
             align='WORLD', location=(10, 0.0, 0.0), rotation=(0.0, 0.0, 0.0)
         )
         C.object.name = "sphere02"
@@ -74,7 +72,7 @@ class SIMU_OT_RESETOBJECTS(bpy.types.Operator):
 
         # sphere03
         bpy.ops.mesh.primitive_ico_sphere_add(
-            subdivisions=2, radius=1.0, calc_uvs=True, enter_editmode=False,
+            subdivisions=2, radius=0, calc_uvs=True, enter_editmode=False,
             align='WORLD', location=(10, 20, 0.0), rotation=(0.0, 0.0, 0.0)
         )
         C.object.name = "sphere03"
@@ -87,7 +85,7 @@ class SIMU_OT_RESETOBJECTS(bpy.types.Operator):
 
         # sphere04
         bpy.ops.mesh.primitive_ico_sphere_add(
-            subdivisions=2, radius=1.0, calc_uvs=True, enter_editmode=False,
+            subdivisions=2, radius=0, calc_uvs=True, enter_editmode=False,
             align='WORLD', location=(40, 20, 0.0), rotation=(0.0, 0.0, 0.0)
         )
         C.object.name = "sphere04"
@@ -115,6 +113,13 @@ class SIMU_OT_RESETOBJECTS(bpy.types.Operator):
         )
         light_obj.location = [8.0, -6.0, 7.0]
         new_col.objects.link(light_obj)
+
+        # set rigidbody_world
+        D.scenes["Scene"].frame_current = 1
+        D.scenes["Scene"].rigidbody_world.point_cache.frame_start = frame_s
+        D.scenes["Scene"].rigidbody_world.point_cache.frame_end = frame_e
+        D.scenes["Scene"].rigidbody_world.collection = new_col
+        # D.scenes["Scene"].rigidbody_world.constraints = new_col
 
         print("---SET OBJECTS---")
 

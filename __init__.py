@@ -19,10 +19,12 @@ import inspect
 
 from . import test_200406
 from . import simu_settings
+from . import simu_play_test
 
 pythonfiles = [
     test_200406,
     simu_settings,
+    simu_play_test,
 ]
 
 for pyfile in pythonfiles:
@@ -37,7 +39,7 @@ for pyfile in pythonfiles:
 def register():
     print("------")
     for cls in classes:
-        print("Register : "+str(cls[0]))
+        print("Register : " + str(cls[0]))
         bpy.utils.register_class(cls[1])
     print("------")
 
