@@ -36,13 +36,19 @@ class SIMU_OT_RESETOBJECTS(bpy.types.Operator):
             D.collections.remove(col)
         print("---RESET OBJECTS---")
 
+        # set frame
+        frame_s = 1
+        frame_e = 600
+        D.scenes["Scene"].rigidbody_world.point_cache.frame_start = frame_s
+        D.scenes["Scene"].rigidbody_world.point_cache.frame_end = frame_e
+
         # set collection
         new_col = D.collections.new("objects")
         C.scene.collection.children.link(new_col)
 
         # sphere01
         bpy.ops.mesh.primitive_ico_sphere_add(
-            subdivisions=2, radius=1.0, calc_uvs=True, enter_editmode=False,
+            subdivisions=2, radius=0.2, calc_uvs=True, enter_editmode=False,
             align='WORLD', location=(0.0, 0.0, 0.0), rotation=(0.0, 0.0, 0.0)
         )
         C.object.name = "sphere01"
@@ -50,6 +56,8 @@ class SIMU_OT_RESETOBJECTS(bpy.types.Operator):
         bpy.ops.rigidbody.object_add(type='ACTIVE')
         new_col.objects.link(sphere01)
         C.scene.collection.objects.unlink(sphere01)
+        sphere01.animation_visualization.motion_path.frame_start = frame_s
+        sphere01.animation_visualization.motion_path.frame_end = frame_e
 
         # sphere02
         bpy.ops.mesh.primitive_ico_sphere_add(
@@ -58,9 +66,37 @@ class SIMU_OT_RESETOBJECTS(bpy.types.Operator):
         )
         C.object.name = "sphere02"
         sphere02 = D.objects["sphere02"]
-        bpy.ops.rigidbody.object_add(type='ACTIVE')
+        bpy.ops.rigidbody.object_add(type='PASSIVE')
+        bpy.ops.object.forcefield_toggle()
+        C.object.field.strength = -50
         new_col.objects.link(sphere02)
         C.scene.collection.objects.unlink(sphere02)
+
+        # sphere03
+        bpy.ops.mesh.primitive_ico_sphere_add(
+            subdivisions=2, radius=1.0, calc_uvs=True, enter_editmode=False,
+            align='WORLD', location=(10, 20, 0.0), rotation=(0.0, 0.0, 0.0)
+        )
+        C.object.name = "sphere03"
+        sphere03 = D.objects["sphere03"]
+        bpy.ops.rigidbody.object_add(type='PASSIVE')
+        bpy.ops.object.forcefield_toggle()
+        C.object.field.strength = -50
+        new_col.objects.link(sphere03)
+        C.scene.collection.objects.unlink(sphere03)
+
+        # sphere04
+        bpy.ops.mesh.primitive_ico_sphere_add(
+            subdivisions=2, radius=1.0, calc_uvs=True, enter_editmode=False,
+            align='WORLD', location=(40, 20, 0.0), rotation=(0.0, 0.0, 0.0)
+        )
+        C.object.name = "sphere04"
+        sphere04 = D.objects["sphere04"]
+        bpy.ops.rigidbody.object_add(type='PASSIVE')
+        bpy.ops.object.forcefield_toggle()
+        C.object.field.strength = -50
+        new_col.objects.link(sphere04)
+        C.scene.collection.objects.unlink(sphere04)
 
         # Camera
         bpy.ops.object.camera_add(
